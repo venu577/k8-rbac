@@ -9,10 +9,26 @@ rules:
   verbs: ["get", "watch", "list"] # actions
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: roboshop
+  name: roboshop-junior
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"] # nouns
+  verbs: ["get", "watch", "list","create"] # actions
+- apiGroups: ["apps"]
+  #
+  # at the HTTP level, the name of the resource for accessing Deployment
+  # objects is "deployments"
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]  
+---
+apiVersion: rbac.authorization.k8s.io/v1
 # This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
 kind: RoleBinding
 metadata:
-  name: roboshop-trainee
+  name: venu
   namespace: roboshop
 subjects:
 - kind: User
@@ -20,5 +36,5 @@ subjects:
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
-  name: roboshop-trainee
+  name: roboshop-junior
   apiGroup: rbac.authorization.k8s.io
